@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KALPAKA ORGANICS - Store</title>
+
+    <link rel="icon" href="logon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+     <header class="header">
+     <nav class="header-nav">
+    <!-- Logo -->
+    <div class="header-logo-container">
+      <img src="logon.png" alt="Kalpaka Organics Logo">
+    </div>
+    <div>
+            <h1>My Store</h1>
+        </div>
+
+        <div class="user">
+            <div class="shop">
+                <a href="shop.html"><i class="fa-solid fa-house"></i></a>
+            </div>
+            <div class="login" id="userMenuToggle">
+                <i class="fa-solid fa-circle-user" style="cursor: pointer;" title="Login"></i>
+            </div>
+            <div class="cart-icon">
+                <a href="#" onclick="openCart()"> <i class="fa-solid fa-bag-shopping"  title="Cart" ></i><span class="cart-count" id="cart-count">0</span></a>
+            </div>
+            <div class="orders">
+                <a href="#" onclick="openOrder()" ><i class="fa-solid fa-gift"   title="Orders"></i></a>
+            </div>
+            <div class="profile-box" id="profileBox" style="display: none;">
+                <img src="default-profile.png" alt="Profile" class="profile-pic">
+                <p id="profileUsername"></p><br>
+                <button onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            </div>
+            <div class="navbar-menu-toggle" onclick="showNavbar()">
+                <i class="fa-solid fa-bars" style=" cursor: pointer;"></i>
+            </div>
+        </div>
+    </nav>
+</header>
+<!-- Login Form -->
+    <div class="login-form" id="loginForm">
+        <form onsubmit="return loginUser(event)" action="login.php" method="post">
+            <h3><i class="fa-solid fa-right-to-bracket"></i> Login</h3>
+
+            <div class="input-box">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" name="name" placeholder="Username" required>
+            </div>
+
+            <div class="input-box">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</button>
+
+            <div class="login-register">
+                <p>Don't have an account..? <a href="#" id="loginlink">Register</a></p>
+            </div>
+            <div class="login-register">
+                <p><a href="#" id="forgotPasswordLink">Forgot Password...?</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Hidden Forgot Password Form -->
+    <div class="forgot-form" id="forgotForm" style="display: none;">
+        <form onsubmit="return forgotPassword(event)">
+            <h3>Forgot Password</h3>
+            <div class="input-box">
+            <input type="email" name="email" placeholder="Enter your registered email" required>
+            </div>
+            <button type="submit">Send Reset Link</button>
+            <div class="login-register"><p><a href="#" id="backToLogin">Back to Login</a></p></div>
+        </form>
+    </div>
+
+    <!-- Register Form -->
+    <div class="register-form" id="registerForm" style="display: none;">
+        <form action="php/register.php" method="post">
+            <h3><i class="fa-solid fa-user-plus"></i> Register</h3>
+
+            <div class="input-box">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" name="name" placeholder="Username" required>
+            </div>
+
+            <div class="input-box">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="text" name="email" placeholder="Email" required>
+            </div>
+
+            <div class="input-box">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit"><i class="fa-solid fa-user-plus"></i> Register</button>
+
+            <div class="login-register">
+                <p>Already have an account..? <a href="#" id="registerlink">Login</a></p>
+            </div>
+        </form>
+    </div>
+<div class="side-navbar" id="sideNavbar">
+    <p class="close-btn" onclick="closeNavbar()">
+        <i class="fa-solid fa-xmark"></i>
+    </p>
+
+    <div class="side-navbar-links">
+        <p class="side-navbar-link"><i class="fa-solid fa-house"></i> <a href="index.html">Home</a></p>
+        <p class="side-navbar-link"><i class="fa-solid fa-circle-info"></i> <a href="about.html">About</a></p>
+        <p class="side-navbar-link"><i class="fa-solid fa-leaf"></i> <a href="products.html">Product</a></p>
+        <p class="side-navbar-link"><i class="fa-solid fa-envelope"></i> <a href="contact.html">Contact</a></p>
+        <p class="side-navbar-link"><i class="fa-solid fa-blog"></i> <a href="blog.html">Blog</a></p>
+        <p class="side-navbar-link"><i class="fa-solid fa-shop"></i> <a href="shop.html">Shop</a></p>
+    </div>
+</div>
+
+    <!-- <div class="side-navbar">
+        <p style="text-align: right;" onclick="closeNavbar()">
+            <i class="fa-solid fa-xmark" style="cursor: pointer;"></i>
+        </p>
+
+        <div class="side-navbar-links">
+            <p class="side-navbar-link"><a href="home.html">Home</a></p>
+            <p class="side-navbar-link"><a href="about.html">About</a></p>
+            <p class="side-navbar-link"><a href="product.html">Product</a></p>
+            <p class="side-navbar-link"><a href="contact.html">Contact</a></p>
+            <p class="side-navbar-link"><a href="blog.html">Blog</a></p>
+            <p class="side-navbar-link"><a href="shop.html">Shop</a></p>
+        </div>
+    </div> -->
+
+<main>
+    <div class="products">
+        <div class="product-1">
+            <img id="productImage" src="organicstarouter.png" style="border-radius: 10px;" width="300px" height="auto"
+                alt="">
+        </div>
+        <div class="detail">
+            <h1 id="productName" style="text-transform: uppercase;" >Organic Star</h1>
+                <p>Organic Star - Eco - Friendly compost</p>
+            <p>Available</p>
+            <div id="weight" aria-required="true">
+                <div class="option" onclick="selectWeight('5kg',250,this)">5kg</div>
+                <div class="option" onclick="selectWeight('10kg',500,this)">10kg</div>
+                <div class="option" onclick="selectWeight('25kg',1250,this)">25kg</div>
+                <div class="option" onclick="selectWeight('50kg',2500,this)">50kg</div>
+            </div>
+            
+            <h2>Rs :-    <span id="price">0</span></h2>
+
+            <div class="quantity">
+                <p>Quantity</p>
+                <i class="fa-solid fa-circle-plus" onclick="increase()" ></i>
+                <input type="number" id="quantity" value="1" min="1" required />
+                <i class="fa-solid fa-circle-minus" onclick="decrease()" ></i>
+            </div>
+            <button  type="button" class="b1"  onclick="addToCart()">Add to Cart</button>
+            <button class="b2" onclick="buyNow()">Buy it Now</button>
+        </div>
+    </div>
+</main>
+
+
+
+<!-- <footer class="footer">
+    <div class="footer-content">
+        <div class="contact-section  ">
+            <h3>Contact With us</h3>
+            <br>
+            <span>
+                <i class="fa-solid fa-location-dot"></i> 4/133X, Muthammal Colony, 3rd Street,<br>Thoothukudi, Tamil Nadu - 628002.
+            </span>
+            <span>
+                <i class="fa-solid fa-phone"></i> 91-461-2347668
+            </span>
+            <span>
+                <i class="fa-solid fa-envelope"></i> kalpakaorganics@gmail.com
+            </span>
+            <br>
+            <div class="social-icons">
+                <i class="fa-brands fa-whatsapp"></i>
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-twitter"></i>
+                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-youtube"></i>
+            </div>
+        </div>
+        
+        <div class="certified-section">
+            <h3>Our Certification</h3>
+            <br>
+            <span><i class="fa-solid fa-award"></i> ISO 9001:2015 Certified</span>
+            <span><i class="fa-solid fa-seedling"></i> Organic Certified Supplier</span>
+            <span><i class="fa-solid fa-handshake"></i> Trusted Export Partner</span>
+        </div>
+
+        <div class="quick-link-section">
+            <h3>Quick Link</h3>
+            <br>
+            <div class="link-list">
+                <span><i class="fa-solid fa-home"></i> <a href="index.html" style="color: white;">Home</a></span>
+                <span><i class="fa-solid fa-circle-info"></i> <a href="about.html" style="color: white;">About</a></span>
+                <span><i class="fa-solid fa-box"></i> <a href="products.html" style="color: white;">Product</a></span>
+                <span><i class="fa-solid fa-envelope"></i> <a href="contact.html" style="color: white;">Contact</a></span>
+                <span><i class="fa-solid fa-newspaper"></i> <a href="blog.html" style="color: white;">Blog</a></span>
+                <span><i class="fa-solid fa-store"></i> <a href="shop.html" style="color: white;">Store</a></span>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom-copyright">
+        <p>&copy; 2025 Kalpaka Organics. All rights reserved. Cultivating Health, Nurturing Earth.</p>
+        <div class="footer-links">
+            <a href="https://samudhratechsolutions.biz/" target="_blank">Web designed by : Samudhra Tech Solutions</a>
+        </div>
+    </div>
+</footer> -->
+
+<div class="floating-buttons">
+  <!-- WhatsApp -->
+  <a href="https://wa.me/918072263604" target="_blank" class="fab whatsapp" aria-label="Chat on WhatsApp">
+    
+    <i class="fa-brands fa-whatsapp"></i>
+    
+    <span class="tooltip" >Chat with us</span>
+  </a>
+
+  <!-- Scroll to Top -->
+  <a href="#" class="fab top" aria-label="Scroll to Top" onclick="scrollToTop()">
+    <i class="fa-solid fa-arrow-up"></i>
+  </a>
+</div>
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-section contact-section">
+            <a href="index.html" class="footer-logo-link">
+                <img src="logon.png" alt="Kalpaka Organics Logo" style="background: #A5D6A7;" class="footer-logo">
+            </a>
+            <p class="footer-description">Nurturing Nature. Enriching Soil.</p>
+            <div>
+                <p>
+  <a href="https://www.google.co.in/maps/place/Kalpaka+Organics+Store/@8.8111884,78.1220956,16z/data=!4m6!3m5!1s0x3b03ef006687290d:0x57052f540b7fcc35!8m2!3d8.8119099!4d78.128056!16s%2Fg%2F11xvr4t980?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D"
+   target="_blank" 
+     aria-label="Location on Google Maps">
+    <i class="fa-solid fa-location-dot"></i> 
+    4/133X, Muthammal Colony, 3rd Street, <br>
+    Thoothukudi, Tamil Nadu - 628002
+  </a>
+</p>
+<p><i class="fa-solid fa-phone"></i> <a href="tel:+914612347668">+91-461-2347668</a>,<a href="tel:+918072263604"> +91 8072263604</a></p>
+                <p><i class="fa-solid fa-envelope"></i> <a href="mailto:kalpakaorganics@gmail.com">kalpakaorganics@gmail.com</a></p>
+            </div>
+        </div>
+
+        <nav class="footer-section footer-links">
+            <h3 class="footer-heading">Quick Links</h3>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="refund.html">Shipping & Return Policy</a></li>
+                <!-- <li><a href="index.html"><i class="fa-solid fa-home"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fa-solid fa-circle-info"></i> About Us</a></li>
+                    <li><a href="products.html"><i class="fa-solid fa-box"></i> Products</a></li>
+                    <li><a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+                    <li><a href="blog.html"><i class="fa-solid fa-newspaper"></i> Blog</a></li>
+                    <li><a href="shop.html"><i class="fa-solid fa-store"></i>  Store</a></li> -->
+            </ul>
+        </nav>
+
+        <nav class="footer-section footer-links">
+            <h3 class="footer-heading"> Our Products</h3>
+            <ul>
+                <li><a href="vermi.html">Vermi Star</a></li>
+                <li><a href="organic.html">Organic Star</a></li>
+                <li><a href="pot.html">Pot Star</a></li>
+                <li><a href="faa.html">Amino Star</a></li>
+            </ul>
+        </nav>
+
+        <div class="footer-section footer-social">
+            <h3 class="footer-heading">Connect With Us</h3>
+            <div class="social-icons">
+                <a href="https://wa.me/918072263604" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/kalpaka_organics?igsh=YmlrMGV1bnRwMWpn" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" target="_blank" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+            
+            <div class="footer-certified">
+                <h3 class="footer-heading">Our Certifications</h3>
+                <p><i class="fa-solid fa-handshake"></i> Trusted Export Partner</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 Kalpaka Organics. All rights reserved.</p>
+        <div class="footer-designer-info">
+            <a href="https://samudhratechsolutions.biz/" target="_blank">Web designed by : Samudhra Tech Solutions</a>
+        </div>
+    </div>
+</footer>
+<script>
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// show arrow button after scrolling
+window.addEventListener("scroll", function () {
+  const topBtn = document.querySelector(".fab.top");
+  if (window.scrollY > 200) {
+    topBtn.style.display = "flex";
+  } else {
+    topBtn.style.display = "none";
+  }
+});
+</script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="js/detail.js" defer></script>
+
+</body>
+
+</html>

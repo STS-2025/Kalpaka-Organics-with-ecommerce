@@ -1,0 +1,2 @@
+[10-Sep-2025 10:30:50 UTC] PHP Warning:  include(navbar_admin.php): Failed to open stream: No such file or directory in /home/gtavwwl5fh04/public_html/Admin_home.php on line 223
+[10-Sep-2025 10:30:50 UTC] PHP Warning:  include(): Failed opening 'navbar_admin.php' for inclusion (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/gtavwwl5fh04/public_html/Admin_home.php on line 223

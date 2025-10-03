@@ -1,0 +1,229 @@
+/* ================== Thank You / Status Page ================== */
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: var(--color-gray-50);
+  margin-top: 6rem; /* Adjust if your fixed header overlaps */
+}
+
+.container {
+  text-align: center;
+  background-color: var(--color-white);
+  padding: 3rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+}
+
+/* --- Spinner & Checkmark --- */
+.spinner-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 2rem auto;
+}
+
+/* The rotating spinner */
+.spinner {
+  width: 100px;
+  height: 100px;
+  border: 6px solid var(--color-tertiary-green);
+  border-top-color: var(--color-primary-green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  opacity: 1;
+  transition: opacity 0.3s ease-out;
+}
+
+/* The checkmark that appears after loading */
+.checkmark-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: var(--color-primary-green);
+  transform: scale(0); /* Initially hidden */
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkmark {
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
+.tick-icon {
+  width: 100%;
+  height: 100%;
+}
+
+.tick-icon path {
+  stroke: var(--color-white);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  /* Animation properties for the "drawing" effect */
+  stroke-dasharray: 56;
+  stroke-dashoffset: 56;
+}
+
+/* Splash effect on success */
+.splash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  transform: scale(0);
+  opacity: 1;
+}
+
+/* --- State Management (controlled by JS) --- */
+
+/* When loading is finished, hide spinner and show checkmark */
+.spinner-container:not(.is-loading) .spinner {
+  opacity: 0;
+}
+
+.spinner-container:not(.is-loading) .checkmark-circle {
+  transform: scale(1);
+  opacity: 1;
+  animation: circle-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.spinner-container:not(.is-loading) .tick-icon path {
+  animation: draw-tick 0.4s 0.2s ease-out forwards;
+}
+
+.spinner-container:not(.is-loading) .splash {
+  animation: splash-effect 0.6s 0.2s ease-out forwards;
+}
+
+
+/* --- Status Text --- */
+.status {
+  margin-bottom: 2rem;
+}
+
+.status-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.status-description {
+  font-size: 1rem;
+  color: var(--color-text-light);
+}
+
+/* --- Action Button --- */
+#toggle-button {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+  border: none;
+  margin: 0;
+}
+
+/* Disabled state during processing */
+#toggle-button:disabled {
+  background-color: #E2E8F0; /* A light gray */
+  color: #A0AEC0; /* A muted text color */
+  cursor: not-allowed;
+}
+
+/* Enabled state after success */
+#toggle-button:not(:disabled) {
+  background-color: var(--color-primary-green);
+  color: var(--color-white);
+}
+
+#toggle-button:not(:disabled):hover {
+  background-color: var(--color-secondary-green);
+  transform: translateY(-3px);
+}
+
+/* --- Keyframe Animations --- */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes circle-in {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes draw-tick {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes splash-effect {
+  from {
+    transform: scale(0);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* --- Responsive for Mobile --- */
+@media (max-width: 600px) {
+  main {
+    padding: 1rem;
+    margin-top: 4rem; /* Adjust for smaller header */
+  }
+
+  .container {
+    padding: 2rem 1.5rem;
+  }
+
+  .spinner-container {
+    width: 80px;
+    height: 80px;
+  }
+
+  .spinner {
+    width: 80px;
+    height: 80px;
+    border-width: 5px;
+  }
+
+  .status-title {
+    font-size: 1.5rem;
+  }
+
+  .status-description {
+    font-size: 0.9rem;
+  }
+}

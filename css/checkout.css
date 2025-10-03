@@ -1,0 +1,370 @@
+/* ================== Checkout Page Styles ================== */
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align to top */
+  padding: 2rem 1rem;
+  background-color: var(--color-gray-50);
+  margin-top: 6rem; /* Space for fixed header */
+  min-height: 80vh;
+}
+
+.checkout-container {
+  width: 100%;
+  max-width: 800px;
+  background-color: var(--color-white);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Stepper Progress Bar --- */
+.steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  position: relative;
+  counter-reset: step; /* For numbering */
+}
+
+/* The connecting line */
+.steps::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 100%;
+  background-color: var(--color-tertiary-green);
+  z-index: 1;
+}
+
+.step {
+  color: var(--color-text-light);
+  font-weight: 600;
+  text-align: center;
+  position: relative;
+  background-color: var(--color-white); /* To sit above the line */
+  padding: 0 0.5rem;
+  z-index: 2;
+  transition: color 0.4s ease;
+}
+
+.step::before {
+  counter-increment: step;
+  content: counter(step);
+  display: block;
+  margin: 0 auto 0.5rem;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 50%;
+  background-color: var(--color-tertiary-green);
+  color: var(--color-white);
+  font-weight: bold;
+  transition: background-color 0.4s ease;
+}
+
+.step.active {
+  color: var(--color-primary-green);
+}
+
+.step.active::before {
+  background-color: var(--color-primary-green);
+}
+
+/* --- Step Content Panes --- */
+.step-pane {
+  display: none; /* Hide all panes by default */
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.step-pane.active {
+  display: block; /* Show only the active one */
+}
+
+h2 {
+  font-size: 1.75rem;
+  color: var(--color-primary-green);
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--color-gray-50);
+  padding-bottom: 0.75rem;
+}
+
+/* --- Form and Input Styles --- */
+#addressForm {
+  display: grid;
+  gap: 1rem;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--color-tertiary-green);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--color-secondary-green);
+  box-shadow: 0 0 0 3px rgba(139, 195, 74, 0.2);
+}
+
+/* --- Step 1: Address --- */
+.address-list {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Style for each address card (to be added via JS) */
+.address-card {
+  border: 2px solid var(--color-tertiary-green);
+  padding: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.address-card:hover {
+  border-color: var(--color-secondary-green);
+}
+.address-card.selected {
+  border-color: var(--color-primary-green);
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+}
+
+details.addr-details {
+  margin: 1.5rem 0;
+  border: 1px solid var(--color-tertiary-green);
+  border-radius: 8px;
+}
+
+details.addr-details summary {
+  padding: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--color-primary-green);
+}
+
+details.addr-details form {
+  padding: 1rem;
+  border-top: 1px solid var(--color-tertiary-green);
+}
+
+/* --- Step 2: Order Summary --- */
+#orderItems {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-tertiary-green);
+}
+/* Style for each item in the summary */
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+}
+
+.totals {
+  text-align: right;
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  line-height: 1.8;
+}
+
+.totals .total {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-text-dark);
+}
+
+/* --- Step 3: Payment --- */
+.pay-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pay-methods label {
+  display: block;
+  background: var(--color-gray-50);
+  padding: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid var(--color-tertiary-green);
+}
+
+.card-box {
+  padding: 1rem;
+  margin-left: 1.5rem;
+  border-left: 3px solid var(--color-secondary-green);
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* --- Navigation & Buttons --- */
+.row {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  border-top: 1px solid var(--color-gray-50);
+  padding-top: 1.5rem;
+  gap: 1rem;
+}
+
+button {
+  background: var(--color-primary-green);
+  color: var(--color-white);
+  border: none;
+  border-radius: 8px;
+  padding: 14px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s;
+}
+
+button:hover {
+  background: var(--color-secondary-green);
+  transform: translateY(-2px);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+button.back {
+  background: transparent;
+  color: var(--color-text-light);
+  border: 2px solid var(--color-tertiary-green);
+}
+
+button.back:hover {
+  background: var(--color-gray-50);
+  color: var(--color-text-dark);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+  .checkout-container {
+    padding: 1.5rem;
+  }
+  
+  .step {
+    font-size: 0.8rem; /* Hide text label */
+  }
+
+  .nav-row {
+    flex-direction: column-reverse;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  button {
+    width: 100%;
+  }
+}
+
+/* ================== Order Items List ================== */
+#orderItems {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* Single order line */
+.order-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f9f9f9;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-gray-50);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Product Image */
+.order-line img {
+  width: 60px;
+  height: 60px;
+  
+  border-radius: 6px;
+  f
+}
+
+/* Details (name, size, qty) */
+.order-line div:nth-child(2) {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+  color: var(--color-text-dark);
+}*/
+/* Details (name, size, qty) */
+.order-line div:nth-child(2) {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+  color: var(--color-text-dark);
+}
+
+
+.order-line div:nth-child(2) strong {
+  font-size: 1rem;
+  color: var(--color-primary-green);
+}
+
+/* Price (last div) */
+.order-line div:last-child {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-text-dark);
+  white-space: nowrap;
+}
+
+/* ================== Mobile ================== */
+@media (max-width: 600px) {
+  .order-line {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-line img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .order-line div:last-child {
+    align-self: flex-end;
+    font-size: 0.9rem;
+    margin-top: 6px;
+  }
+}
