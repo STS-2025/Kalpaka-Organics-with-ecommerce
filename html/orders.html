@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KALPAKA ORGANICS - Store</title>
+
+    <link rel="icon" href="../logon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="css/orders.css"> -->
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/shop.css">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <header class="header">
+        <nav class="header-nav">
+            <!-- Logo -->
+            <div class="header-logo-container">
+                <img src="../logon.png" alt="Kalpaka Organics Logo">
+            </div>
+            <div>
+                <h1>My Store</h1>
+            </div>
+
+            <div class="user">
+                <div class="shop">
+                    <a href="shop.html"><i class="fa-solid fa-house"></i></a>
+                </div>
+                <div class="login" id="userMenuToggle">
+                    <i class="fa-solid fa-circle-user" style="cursor: pointer;" title="Login"></i>
+                </div>
+                <div class="cart-icon">
+                    <a href="cart.html" onclick="openCart()"> <i class="fa-solid fa-bag-shopping" title="Cart"></i><span
+                            class="cart-count" id="cart-count">0</span></a>
+                </div>
+                <div class="orders">
+                    <a href="orders.html" onclick="openOrder()"><i class="fa-solid fa-gift" title="Orders"></i></a>
+                </div>
+                <div class="profile-box" id="profileBox" style="display: none;">
+                    <img src="default-profile.png" alt="Profile" class="profile-pic">
+                    <p id="profileUsername"></p><br>
+                    <button onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                </div>
+                <div class="navbar-menu-toggle" onclick="showNavbar()">
+                    <i class="fa-solid fa-bars" style=" cursor: pointer;"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Login Form -->
+    <div class="login-form" id="loginForm">
+        <form onsubmit="return loginUser(event)" action="../login.php" method="post">
+            <h3><i class="fa-solid fa-right-to-bracket"></i> Login</h3>
+
+            <div class="input-box">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" name="name" placeholder="Username" required>
+            </div>
+
+            <div class="input-box">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit"
+                class="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-green-600 to-green-500 text-white font-medium px-5 py-2.5 rounded-full shadow-md transition transform hover:-translate-y-1 hover:opacity-90">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i> Login</button>
+
+            <div class="login-register">
+                <p>Don't have an account..? <a href="#" id="loginlink">Register</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Register Form -->
+    <div class="register-form" id="registerForm" style="display: none;">
+        <form action="../php/register.php" method="post">
+            <h3><i class="fa-solid fa-user-plus"></i> Register</h3>
+
+            <div class="input-box">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" name="name" placeholder="Username" required>
+            </div>
+
+            <div class="input-box">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="text" name="email" placeholder="Email" required>
+            </div>
+
+            <div class="input-box">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit"
+                class="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-green-600 to-green-500 text-white font-medium px-5 py-2.5 rounded-full shadow-md transition transform hover:-translate-y-1 hover:opacity-90">
+                <i class="fa-solid fa-user-plus"></i> Register</button>
+
+            <div class="login-register">
+                <p>Already have an account..? <a href="#" id="registerlink">Login</a></p>
+            </div>
+        </form>
+    </div>
+
+    <div class="side-navbar" id="sideNavbar">
+        <p class="close-btn" onclick="closeNavbar()">
+            <i class="fa-solid fa-xmark"></i>
+        </p>
+
+        <div class="side-navbar-links">
+            <p class="side-navbar-link"><i class="fa-solid fa-house"></i> <a href="index.html">Home</a></p>
+            <p class="side-navbar-link"><i class="fa-solid fa-circle-info"></i> <a href="about.html">About</a></p>
+            <p class="side-navbar-link"><i class="fa-solid fa-leaf"></i> <a href="products.html">Product</a></p>
+            <p class="side-navbar-link"><i class="fa-solid fa-envelope"></i> <a href="contact.html">Contact</a></p>
+            <p class="side-navbar-link"><i class="fa-solid fa-blog"></i> <a href="blog.html">Blog</a></p>
+            <p class="side-navbar-link"><i class="fa-solid fa-shop"></i> <a href="shop.html">Shop</a></p>
+        </div>
+    </div>
+    <main>
+        <div class="orders-container">
+
+
+            <div class="products-header">
+                <h2>My Orders</h2>
+            </div>
+
+            <!-- <div class="search-container">
+                <form class="product-search" onsubmit="searchOrders(event)">
+                    //<input type="date" id="orderDate" placeholder="Search by date..." class="search-input">
+                    <label>From:</label>
+                    <input type="date" id="fromDate" class="search-input" required>
+
+                    <label>To:</label>
+                    <input type="date" id="toDate" class="search-input" required>
+                    <i class="fa-solid fa-rotate" title="Refresh" onclick="resetSearch()" style="cursor: pointer;"></i>
+                    <button type="submit" class="search-btn">
+                        <i class="fa-solid fa-magnifying-glass" title="search"></i>
+                    </button>
+                </form>
+            </div> -->
+
+    <div class="p-4 mb-4 rounded-lg shadow-sm border flex justify-center"
+     style="background-color: var(--color-gray-50); border-color: var(--color-tertiary-green);">
+
+  <form class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto" 
+        onsubmit="searchOrders(event)">
+    
+    <!-- From Date -->
+    <div class="w-full sm:w-auto flex flex-col sm:flex-row sm:items-center items-start gap-3  mt-2 sm:mt-0"  >
+      <label for="fromDate" class="font-medium text-sm mb-1" style="color: var(--color-text-dark);">
+        From Date:
+      </label>
+      <input type="date" id="fromDate" required
+             class="px-3 py-2 rounded-md border focus:outline-none focus:ring-2 text-sm w-full sm:w-auto"
+             style="border-color: var(--color-tertiary-green); color: var(--color-text-dark); background-color: var(--color-white);">
+    </div>
+
+    <!-- To Date -->
+    <div class="w-full sm:w-auto flex flex-col sm:flex-row sm:items-center items-start gap-3  mt-2 sm:mt-0"  >
+      <label for="toDate" class="font-medium text-sm mb-1" style="color: var(--color-text-dark);">
+        To Date:
+      </label>
+      <input type="date" id="toDate" required
+             class="px-3 py-2 rounded-md border focus:outline-none focus:ring-2 text-sm w-full sm:w-auto"
+             style="border-color: var(--color-tertiary-green); color: var(--color-text-dark); background-color: var(--color-white);">
+    </div>
+
+    <!-- Reset + Search -->
+    <div class="flex justify-center sm:justify-start items-center gap-3 w-full sm:w-auto mt-2 sm:mt-0">
+      <!-- Reset Button -->
+      <i class="fa-solid fa-rotate text-lg cursor-pointer"
+         title="Refresh"
+         onclick="resetSearch()"
+         style="color: var(--color-primary-green);"></i>
+
+      <!-- Search Button -->
+      <button type="submit"
+              class="px-4 py-2 rounded-md text-white font-medium transition duration-300 ease-in-out transform hover:scale-105"
+              style="background-color: var(--color-primary-green);"
+              onmouseover="this.style.backgroundColor='var(--color-secondary-green)'"
+              onmouseout="this.style.backgroundColor='var(--color-primary-green)'">
+        <i class="fa-solid fa-magnifying-glass" title="Search"></i>
+      </button>
+    </div>
+  </form>
+</div>
+
+
+
+            <div id="ordersList"></div>
+            <div id="orderItemsBox" class="modal hidden">
+                <div class="modal-content">
+                    <button id="closeModal">&times;</button>
+                    <h2>Order Details</h2>
+                    <div id="orderItems"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+    <div class="floating-buttons">
+        <!-- WhatsApp -->
+        <a href="https://wa.me/918072263604" target="_blank" class="fab whatsapp animate-bounce"
+            aria-label="Chat on WhatsApp">
+
+            <i class="fa-brands fa-whatsapp"></i>
+
+            <span class="tooltip">Chat with us</span>
+        </a>
+
+        <!-- Scroll to Top -->
+        <a href="#" class="fab top" aria-label="Scroll to Top" onclick="scrollToTop()">
+            <i class="fa-solid fa-arrow-up"></i>
+        </a>
+    </div>
+    <footer class="footer">
+        <div class="footer-container">
+
+            <div class="footer-section contact-section">
+                <a href="index.html" class="footer-logo-link">
+                    <img src="../logon.png" alt="Kalpaka Organics Logo" style="background: #A5D6A7;" class="footer-logo">
+                </a>
+                <p class="footer-description">Nurturing Nature. Enriching Soil.</p>
+                <div>
+                    <p>
+                        <a href="https://www.google.co.in/maps/place/Kalpaka+Organics+Store/@8.8111884,78.1220956,16z/data=!4m6!3m5!1s0x3b03ef006687290d:0x57052f540b7fcc35!8m2!3d8.8119099!4d78.128056!16s%2Fg%2F11xvr4t980?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D"
+                            target="_blank" aria-label="Location on Google Maps">
+                            <i class="fa-solid fa-location-dot"></i>
+                            4/133X, Muthammal Colony, 3rd Street, <br>
+                            Thoothukudi, Tamil Nadu - 628002
+                        </a>
+                    </p>
+                    <p><i class="fa-solid fa-phone"></i> <a href="tel:+914612347668">+91-461-2347668</a>,<a
+                            href="tel:+918072263604"> +91 8072263604</a></p>
+                    <p><i class="fa-solid fa-envelope"></i> <a
+                            href="mailto:kalpakaorganics@gmail.com">kalpakaorganics@gmail.com</a></p>
+                </div>
+            </div>
+
+            <nav class="footer-section footer-links">
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="refund.html">Shipping & Return Policy</a></li>
+                </ul>
+            </nav>
+
+            <nav class="footer-section footer-links">
+                <h3 class="footer-heading"> Our Products</h3>
+                <ul>
+                    <li><a href="vermi.html">Vermi Star</a></li>
+                    <li><a href="organic.html">Organic Star</a></li>
+                    <li><a href="pot.html">Pot Star</a></li>
+                    <li><a href="faa.html">Amino Star</a></li>
+                </ul>
+            </nav>
+
+            <div class="footer-section footer-social">
+                <h3 class="footer-heading">Connect With Us</h3>
+                <div class="social-icons">
+                    <a href="https://wa.me/918072263604" target="_blank" aria-label="WhatsApp"><i
+                            class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/kalpaka_organics?igsh=YmlrMGV1bnRwMWpn" target="_blank"
+                        aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" target="_blank" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+
+                <div class="footer-certified">
+                    <h3 class="footer-heading">Our Certifications</h3>
+                    <p><i class="fa-solid fa-handshake"></i> Trusted Export Partner</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Kalpaka Organics. All rights reserved.</p>
+            <div class="footer-designer-info">
+                <a href="https://samudhratechsolutions.biz/" target="_blank">Web designed by : Samudhra Tech
+                    Solutions</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // show arrow button after scrolling
+        window.addEventListener("scroll", function () {
+            const topBtn = document.querySelector(".fab.top");
+            if (window.scrollY > 200) {
+                topBtn.style.display = "flex";
+            } else {
+                topBtn.style.display = "none";
+            }
+        });
+    </script>
+
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/orders.js" defer></script>
+</body>
+
+</html>
