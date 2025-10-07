@@ -157,7 +157,7 @@ body.drawer-open #mainContent {
     <a href="addnewproduct.php"><i class="fas fa-plus"></i>Add Product</a>
     <a href="payment_check.php"><i class="fas fa-university"></i>Payment</a>
     <a href="delivery.php"><i class="fas fa-truck"></i>Delivery</a>
-    <a href="/ko_test_mith/html/shop.html"><i class="fas fa-sign-out-alt"></i>Logout</a>
+    <a href="../html/shop.html"><i class="fas fa-sign-out-alt"></i>Logout</a>
 </div>
 
 

@@ -3,8 +3,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
 
-$conn = new mysqli("localhost", "root", "", "kcpl");
-if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
+require_once "../php/db.php";
+
 
 $from_date = $_GET['from_date'] ?? null;
 $to_date   = $_GET['to_date'] ?? null;
@@ -30,17 +30,21 @@ $grand_total = 0;
 if ($result_total && $result_total->num_rows > 0) {
   while ($row = $result_total->fetch_assoc()) $sales_data[] = $row;
 }
+
 // Fetch today's sales
-$today_sales_query = "SELECT SUM(oi.price * oi.quantity) AS total_today_sales
-                      FROM order_items oi
-                      JOIN orders o ON oi.order_id = o.id
-                      WHERE DATE(o.created_at) = ?";
+date_default_timezone_set('Asia/Kolkata');
+$date_today = date('Y-m-d');
+
+$today_sales_query = "SELECT SUM(total_amount) AS total_today_sales
+                      FROM orders
+                      WHERE DATE(CONVERT_TZ(created_at,'+00:00','+05:30')) = ?"; // convert UTC to IST
 $stmt = $conn->prepare($today_sales_query);
 $stmt->bind_param("s", $date_today);
 $stmt->execute();
 $result_today = $stmt->get_result();
 $today_sales = $result_today->fetch_assoc()['total_today_sales'] ?? 0;
 $stmt->close();
+
 
 // Fetch total sales
 $total_sales_query = "SELECT SUM(oi.price * oi.quantity) AS total_sales
@@ -122,7 +126,7 @@ foreach ($sales_data as $sale) {
   <a href="addnewproduct.php" class="flex items-center gap-3 px-4 py-3 hover:bg-[#2bcdaa] transition"><i class="fas fa-plus w-5"></i> Add Product</a>
   <a href="payment_check.php" class="flex items-center gap-3 px-4 py-3 hover:bg-[#2bcdaa] transition"><i class="fas fa-university w-5"></i> Payment</a>
   <a href="delivery.php" class="flex items-center gap-3 px-4 py-3 hover:bg-[#2bcdaa] transition"><i class="fas fa-truck w-5"></i> Delivery</a>
-  <a href="admin_login.php" class="flex items-center gap-3 px-4 py-3 hover:bg-[#2bcdaa] transition"><i class="fas fa-sign-out-alt w-5"></i> Logout</a>
+  <a href="../html/shop.html" class="flex items-center gap-3 px-4 py-3 hover:bg-[#2bcdaa] transition"><i class="fas fa-sign-out-alt w-5"></i> Logout</a>
 </div>
 
  <!-- Main content -->
@@ -141,7 +145,7 @@ foreach ($sales_data as $sale) {
       <a href="total_sales.php" class="flex flex-col items-center">
         <i class="fas fa-chart-line text-2xl mb-2"></i>
         <div class="text-sm text-gray-200">Total Sales</div>
-        <div class="text-lg font-semibold">₹<?php echo number_format($total_sales,2); ?></div>
+        <div class="text-lg font-semibold">₹<?=number_format($grand_total,2);?></div>
       </a>
     </div>
     <div class="bg-teal-700 text-white rounded-lg shadow p-5 flex flex-col items-center hover:scale-105 transition">
@@ -300,32 +304,40 @@ hamburgerBtn.addEventListener('click', () => {
 });
 
 // Search filter
-document.getElementById('searchInput').addEventListener('keyup', function() {
-  const filter = this.value.toLowerCase();
-  document.querySelectorAll('#salesTable tbody tr').forEach(row => {
-    const product = row.cells[0].textContent.toLowerCase();
-    const username = row.cells[4].textContent.toLowerCase();
-    row.style.display = (product.includes(filter) || username.includes(filter)) ? '' : 'none';
-  });
+const searchInput = document.getElementById('searchInput');
+const salesTableBody = document.getElementById('salesTableBody');
+
+searchInput.addEventListener('keyup', function() {
+  const query = this.value.trim();
+
+  if (query === '') {
+    // reload page for grouped view
+    location.reload();
+    return;
+  }
+
+  // Use AJAX to fetch ungrouped results
+ fetch(`search_orders.php?search=${encodeURIComponent(query)}`)
+
+    .then(res => res.text())
+    .then(data => {
+      salesTableBody.innerHTML = data;
+    })
+    .catch(err => console.error(err));
 });
 </script>
   <script>
     const fromDateInput=document.getElementById('fromDate');
     const toDateInput=document.getElementById('toDate');
     const filterBtn=document.getElementById('filterBtn');
-    const searchInput=document.getElementById('searchInput');
+    //const searchInput=document.getElementById('searchInput');
 
     filterBtn.addEventListener('click',()=>{
       const fromDate=fromDateInput.value,toDate=toDateInput.value;
       window.location.href=`total_sales.php?from_date=${fromDate}&to_date=${toDate}`;
     });
 
-    searchInput.addEventListener('keyup',()=>{
-      const filter=searchInput.value.toLowerCase();
-      document.querySelectorAll('#salesTableBody tr').forEach(row=>{
-        row.style.display=row.textContent.toLowerCase().includes(filter)?'':'none';
-      });
-    });
+  
 
     window.onload=function(){
       const params=new URLSearchParams(window.location.search);

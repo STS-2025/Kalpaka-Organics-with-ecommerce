@@ -1,8 +1,7 @@
 
 <?php
 session_start();
-include "toydb.php";
-$link = opencon();
+require_once "../php/db.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_begin_transaction($link);
@@ -136,6 +135,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$link->close();
+$conn->close();
 ?>
 

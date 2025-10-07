@@ -5,8 +5,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$conn = new mysqli("localhost", "root", "", "kcpl");
-if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
+require_once "../php/db.php";
+
 
 $delivery_stmt = $conn->prepare("SELECT id, delivered_on, username, total_amount, courier_service FROM delivery_details");
 $delivery_stmt->execute();
@@ -150,7 +150,7 @@ body.drawer-open {
     <a href="addnewproduct.php"><i class="fas fa-plus"></i> Add Product</a>
     <a href="payment_check.php"><i class="fas fa-university"></i> Payment</a>
     <a href="delivery.php"><i class="fas fa-truck"></i> Delivery</a>
-    <a href="/ko_test_mith/html/shop.html"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+    <a href="../html/shop.html"><i class="fas fa-sign-out-alt"></i> Log Out</a>
   </nav>
 </div>
 
@@ -203,4 +203,4 @@ hamburgerBtn.addEventListener('click', () => {
 
 </body>
 </html>
-<?php $conn->close(); ?>
+<?php $conn->close();  ?>

@@ -11,10 +11,8 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Database connection
-$conn = new mysqli("localhost", "root", "", "kcpl");
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+require_once "../php/db.php";
+
 
 // LOW STOCK FETCH 
 $lowStockSql = "SELECT p.name AS product_name, v.weight, v.quantity
@@ -32,11 +30,12 @@ if ($lowStockResult && $lowStockResult->num_rows > 0) {
 
 
 // Fetch today's sales
+date_default_timezone_set('Asia/Kolkata');
 $date_today = date('Y-m-d');
-$today_sales_query = "SELECT SUM(oi.price * oi.quantity) AS total_today_sales
-                      FROM order_items oi
-                      JOIN orders o ON oi.order_id = o.id
-                      WHERE DATE(o.created_at) = ?";
+
+$today_sales_query = "SELECT SUM(total_amount) AS total_today_sales
+                      FROM orders
+                      WHERE DATE(CONVERT_TZ(created_at,'+00:00','+05:30')) = ?"; // convert UTC to IST
 $stmt = $conn->prepare($today_sales_query);
 $stmt->bind_param("s", $date_today);
 $stmt->execute();
@@ -44,12 +43,13 @@ $result_today = $stmt->get_result();
 $today_sales = $result_today->fetch_assoc()['total_today_sales'] ?? 0;
 $stmt->close();
 
+
 // Fetch total sales
-$total_sales_query = "SELECT SUM(oi.price * oi.quantity) AS total_sales
-                      FROM order_items oi
-                      JOIN orders o ON oi.order_id = o.id";
+// ✅ Fetch total sales correctly from orders table
+$total_sales_query = "SELECT SUM(total_amount) AS total_sales FROM orders";
 $result_total = $conn->query($total_sales_query);
 $total_sales = $result_total->fetch_assoc()['total_sales'] ?? 0;
+
 
 // Fetch total customers
 $total_customers_query = "SELECT COUNT(DISTINCT id) AS total_customers FROM users";
@@ -418,7 +418,7 @@ $result_top_customers = $conn->query($top_customers_query);
         class="fas fa-university w-5"></i> Payment</a>
     <a href="delivery.php" class="flex items-center gap-3 px-4 py-3 hover:bg-[#2bcdaa] transition"><i
         class="fas fa-truck w-5"></i> Delivery</a>
-    <a href="/ko_test_mith/html/shop.html" class="flex items-center gap-3 px-4 py-3 hover:bg-[#2bcdaa] transition"><i
+    <a href="../html/shop.html" class="flex items-center gap-3 px-4 py-3 hover:bg-[#2bcdaa] transition"><i
         class="fas fa-sign-out-alt w-5"></i> Logout</a>
   </div>
 

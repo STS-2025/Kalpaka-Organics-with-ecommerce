@@ -4,8 +4,8 @@ error_reporting(0);
 <?php
 try
 {
+require_once "../php/db.php";
 
-$conn=mysqli_connect("localhost", "root", "", "kcpl");
 $did=$_REQUEST['id'];
 $sql="DELETE from page where id='$did' LIMIT 1";
 if (mysqli_query($conn,$sql)){

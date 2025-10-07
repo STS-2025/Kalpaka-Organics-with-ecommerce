@@ -1,9 +1,7 @@
 <?php
 session_start();
-$conn = new mysqli("localhost", "root", "", "kcpl");
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once "../php/db.php";
+
 
 // Fetch total quantity per product
 $query = "
@@ -75,4 +73,5 @@ if (!$result_products) {
 
 </body>
 </html>
-<?php $conn->close(); ?>
+<?php $conn->close();?>
+

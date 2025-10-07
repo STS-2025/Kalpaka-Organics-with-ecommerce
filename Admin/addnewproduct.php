@@ -1,10 +1,8 @@
 <?php
 session_start();
-$conn = mysqli_connect("localhost", "root", "", "kcpl");
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-mysqli_close($conn);
+require_once "../php/db.php";
+
+$conn->close(); 
 ?>
 
 <!DOCTYPE html>

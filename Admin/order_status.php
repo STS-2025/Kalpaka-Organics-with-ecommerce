@@ -3,8 +3,8 @@ session_start();
 date_default_timezone_set('Asia/Kolkata');
 
 // Database connection
-$conn = new mysqli("localhost", "root", "", "kcpl");
-if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+require_once "../php/db.php";
+
 
 // Handle delivery confirmation
 if (isset($_POST['confirm_delivery'])) {
@@ -22,7 +22,7 @@ if (isset($_POST['confirm_delivery'])) {
         header("Location: order_status.php"); exit();
     }
 
-    $update = $conn->prepare("UPDATE orders SET delivery_status='Delivered', delivered_on=?, courier_service=? WHERE id=?");
+    $update = $conn->prepare("UPDATE orders SET order_status='Processing', delivered_on=?, courier_service=? WHERE id=?");
     $update->bind_param("ssi", $delivered_on, $courier_service, $order_id);
     $update->execute();
 
@@ -47,7 +47,7 @@ o.courier_service,o.order_status
 FROM orders o
 JOIN users u ON o.user_id=u.id
 JOIN addresses a ON o.address_id=a.id
-WHERE o.delivery_status='Pending' AND o.order_status!='Cancelled'
+WHERE o.payment_status='paid' AND o.order_status='Placed'
 ";
 $result = $conn->query($query);
 ?>
@@ -154,7 +154,7 @@ h2{ text-align:center; margin-top:30px; font-weight:600; }
  <a href="addnewproduct.php"><i class="fas fa-plus me-2"></i>Add Product</a>
  <a href="payment_check.php"><i class="fas fa-university me-2"></i>Payment</a>
  <a href="delivery.php"><i class="fas fa-truck me-2"></i>Delivery</a>
- <a href="/ko_test_mith/html/shop.html"><i class="fas fa-sign-out me-2"></i>Logout</a>
+ <a href="../html/shop.html"><i class="fas fa-sign-out me-2"></i>Logout</a>
 </div>
 
 <div class="container">
@@ -223,4 +223,4 @@ h2{ text-align:center; margin-top:30px; font-weight:600; }
 </script>
 </body>
 </html>
-<?php $conn->close(); ?>
+<?php $conn->close();  ?>

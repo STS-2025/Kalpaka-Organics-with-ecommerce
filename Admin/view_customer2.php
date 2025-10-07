@@ -1,10 +1,7 @@
  <?php
 session_start();
-$conn = new mysqli("localhost", "root", "", "kcpl");
+require_once "../php/db.php";
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Get user id from URL
 $user_id = $_GET['id'] ?? '';
@@ -34,6 +31,7 @@ if (!$customer) {
 
 $stmt->close();
 $conn->close();
+
 ?>
 
 <!DOCTYPE html>

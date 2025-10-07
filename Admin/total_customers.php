@@ -1,11 +1,7 @@
 <?php
 session_start();
-$conn = new mysqli("localhost", "root", "", "kcpl");
+require_once "../php/db.php";
 
-// Check DB connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // ✅ Fetch all customers with optional phone
 $customers_query = "
@@ -77,4 +73,5 @@ if ($result_customers === false) {
 
 </body>
 </html>
-<?php $conn->close(); ?>
+<?php  $conn->close() ?>
+

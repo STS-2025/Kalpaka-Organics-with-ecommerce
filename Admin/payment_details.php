@@ -1,19 +1,58 @@
 <?php
 session_start();
+require_once "../php/db.php";
 $order_id = $_GET['order_id'] ?? '';
 $upi = $_GET['upi'] ?? '';
 $phone = $_GET['phone'] ?? '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['refund'])) {
-    $conn = new mysqli("localhost","root","","kcpl");
-    if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
+   
     $id = intval($_POST['order_id']);
-    $conn->query("UPDATE orders SET payment_status='refunded' WHERE id=$id");
-    $_SESSION['success_message'] = "💸 Refund completed for Order #$id.";
+
+    // Secure SELECT query using prepared statement
+    $stmt = $conn->prepare("SELECT payment_status , order_status FROM orders WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result && $row = $result->fetch_assoc()) {
+      $payment_status = $row['payment_status'];
+      $order_status = $row['order_status'];
+
+        if ($payment_status === 'paid' && $order_status != 'Cancelled') {
+            // Secure UPDATE query using prepared statement
+            $update = $conn->prepare("UPDATE orders SET payment_status = 'refunded' WHERE id = ?");
+            $update->bind_param("i", $id);
+            $update->execute();
+            $update->close();
+
+            $_SESSION['success_message'] = "💸 Refund completed for Order #$id.";
+        }else {
+            $_SESSION['error_message'] = "⚠️ Refund not allowed. Either the payment was not completed or the order is cancelled.";
+        }
+    }
+    $stmt->close();
+     $conn->close();
+
+
     header("Location: payment_check.php");
     exit();
 }
 ?>
+<?php
+
+
+if (isset($_SESSION['success_message'])) {
+    echo '<div class="alert alert-success">' . $_SESSION['success_message'] . '</div>';
+    unset($_SESSION['success_message']);
+}
+
+if (isset($_SESSION['error_message'])) {
+    echo '<div class="alert alert-danger">' . $_SESSION['error_message'] . '</div>';
+    unset($_SESSION['error_message']);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

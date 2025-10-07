@@ -1,8 +1,6 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "", "kcpl");
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+require_once "../php/db.php";
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
     $action = $_POST['action'];
@@ -54,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
     }
 }
 
-mysqli_close($conn);
+$conn->close();
 
 // Redirect back to product manage page
 header("Location: ui5manageproduct.php?id=" . ($_POST['id'] ?? $_POST['product_id']));

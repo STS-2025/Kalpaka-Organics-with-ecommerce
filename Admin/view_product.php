@@ -162,11 +162,8 @@ $image_base_path = 'http://localhost/ko_test_mith/php/admin/uploads/';
 
 session_start();
 // Database connection
-$conn = new mysqli("localhost", "root", "", "kcpl");
+require_once "../php/db.php";
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Get product name from URL
 $product_name_from_url = urldecode($_GET['name'] ?? '');
@@ -213,6 +210,7 @@ while ($row = $result->fetch_assoc()) {
 
 $stmt->close();
 $conn->close();
+
 
 if (!$product) {
     echo "Product not found.";

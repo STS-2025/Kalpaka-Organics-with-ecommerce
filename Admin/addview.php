@@ -1,9 +1,7 @@
 <?php
 // ✅ DB connection
-$conn = mysqli_connect("localhost", "root", "", "kcpl");
-if (!$conn) {
-  die("Connection failed: " . mysqli_connect_error());
-}
+require_once "../php/db.php";
+
 
 if (!isset($_GET['id'])) {
   die("Product ID not set.");
@@ -33,7 +31,7 @@ while ($vrow = mysqli_fetch_assoc($vresult)) {
   $variants[] = $vrow;
 }
 mysqli_stmt_close($vstmt);
-mysqli_close($conn);
+$conn->close(); 
 ?>
 <!DOCTYPE html>
 <html lang="en">

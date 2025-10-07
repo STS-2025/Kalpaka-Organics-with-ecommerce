@@ -1,7 +1,7 @@
 <?php
 // Database connection
-$conn = mysqli_connect("localhost", "root", "", "kcpl");
-if (!$conn) die("Connection failed: " . mysqli_connect_error());
+require_once "../php/db.php";
+//$conn = opencon();
 
 // Pagination setup
 $limit = 50;

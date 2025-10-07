@@ -1,5 +1,6 @@
  <?php
-$conn=mysqli_connect("localhost", "root", "", "kcpl");
+require_once "../php/db.php";
+
 
 $id=$_POST['id'];
 $username=$_POST['username'];

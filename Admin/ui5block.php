@@ -1,9 +1,6 @@
  <?php
-$conn = mysqli_connect("localhost", "root", "", "kcpl");
+require_once "../php/db.php";
 
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
 
 $id = $_POST['id'];
 $is_blocked = $_POST['is_blocked'];
@@ -20,5 +17,5 @@ if (mysqli_stmt_execute($stmt)) {
 }
 
 mysqli_stmt_close($stmt);
-mysqli_close($conn);
+$conn->close();
 ?>

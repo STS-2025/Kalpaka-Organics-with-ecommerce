@@ -159,7 +159,8 @@ if (session_status() === PHP_SESSION_NONE) {
         </thead>
         <tbody id="userTable">
            <?php
-$conn = mysqli_connect("localhost", "root", "", "kcpl");
+require_once "../php/db.php";
+
 $limit = 20; 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
@@ -202,6 +203,7 @@ while ($row = mysqli_fetch_assoc($sql_exe)) {
 }
 
 $conn->close();
+
 ?>
         </tbody>
     </table>

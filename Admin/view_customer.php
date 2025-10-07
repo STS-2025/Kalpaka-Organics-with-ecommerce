@@ -1,10 +1,6 @@
 <?php
 session_start();
-$conn = new mysqli("localhost", "root", "", "kcpl");
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once "../php/db.php";
 
 $user_id = $_GET['id'] ?? '';
 if (!$user_id) {
@@ -31,6 +27,7 @@ if (!$customer) {
 }
 $stmt->close();
 $conn->close();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
